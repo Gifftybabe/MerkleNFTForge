@@ -45,6 +45,11 @@ contract ERC721Facet is ERC721 {
         emit Transfer(address(0), to, tokenId);
     }
 
+    function totalSupply() public view returns (uint256) {
+        NFTStorage storage s = getStorage();
+        return s.totalSupply;
+    }
+
     function balanceOf(address owner) public view override returns (uint256) {
         NFTStorage storage s = getStorage();
         return s.balances[owner];
