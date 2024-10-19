@@ -1,66 +1,98 @@
-## Foundry
+# ERC721 NFT with Merkle Distributor
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This project implements an ERC721 NFT contract with a Merkle distributor for whitelisted addresses using the Diamond Standard (EIP-2535). It's built using the Diamond Standard, Foundry framework and includes a presale mechanism.
 
-Foundry consists of:
+## Features
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- ERC721 NFT implementation
+- Merkle-based whitelist distribution
+- Presale functionality
+- Diamond Standard (EIP-2535) for upgradeable contracts
+- Foundry for testing and deployment
 
-## Documentation
+## Prerequisites
 
-https://book.getfoundry.sh/
+- [Foundry](https://book.getfoundry.sh/getting-started/installation.html)
+- [Node.js](https://nodejs.org/) (for Merkle tree generation script)
+
+## Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/DonGuillotine/ERC721_merkle_diamond_standard.git
+   cd ERC721_merkle_diamond_standard
+   ```
+
+2. Install Node.js dependencies:
+   ```
+   npm install
+   ```
+
+3. Install Foundry dependencies:
+   ```
+   forge install
+   ```
 
 ## Usage
 
-### Build
+### Generate Merkle Tree
 
-```shell
-$ forge build
+To generate the Merkle tree and proofs:
+
+```
+npx ts-node scripts/generateMerkleTree.ts
 ```
 
-### Test
+This will create a `merkleData.json` file in the root directory.
 
-```shell
-$ forge test
+### Run Tests
+
+To run the Foundry tests:
+
+```
+forge test
 ```
 
-### Format
+For more detailed output:
 
-```shell
-$ forge fmt
+```
+forge test -vv
 ```
 
-### Gas Snapshots
+All Tests Passed
 
-```shell
-$ forge snapshot
+![Screenshot 2024-10-18 175045](https://github.com/user-attachments/assets/4eeb324c-fb71-49f4-a8f1-e515b8910c04)
+
+
+### Deployment
+
+To deploy the contracts (make sure to set up your .env file first):
+
+```
+forge script script/deploy.s.sol:DeployDiamond --rpc-url <YOUR_RPC_URL> --broadcast --verify
 ```
 
-### Anvil
+## Project Structure
 
-```shell
-$ anvil
-```
+- `contracts/`: Solidity smart contracts
+  - `facets/`: Diamond facets (ERC721Facet, MerkleFacet, PresaleFacet)
+  - `interfaces/`: Contract interfaces
+  - `libraries/`: Helper libraries
+- `scripts/`: TypeScript and deployment scripts
+- `test/`: Foundry test files
 
-### Deploy
+## Key Components
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+1. **Diamond.sol**: The main contract implementing the Diamond Standard.
+2. **ERC721Facet.sol**: Implements the ERC721 standard.
+3. **MerkleFacet.sol**: Handles the Merkle-based whitelist distribution.
+4. **PresaleFacet.sol**: Manages the presale functionality.
+5. **generateMerkleTree.ts**: Script to generate Merkle tree and proofs.
 
-### Cast
+## Contributing
 
-```shell
-$ cast <subcommand>
-```
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-### Help
+## License
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
